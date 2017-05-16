@@ -8,6 +8,7 @@ import java.util.List;
  * Dieses Klasse implementiert den Binärsuchbaum mit hilfe eines arrays.
  * @author Dennis
  *
+ *
  * @param <T>
  */
 public class Array_Imp<T extends Comparable<T>> implements SuchBaum<T> {
