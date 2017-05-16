@@ -1,11 +1,10 @@
 package binaer_baum;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Dieses Klasse implementiert den Binärsuchbaum mit hilfe eines arrays.
+ * 
  * @author Dennis
  *
  *
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public class Array_Imp<T extends Comparable<T>> implements SuchBaum<T> {
 	Node<T> root;
-	Node[] tree = new Node[4];
+	Node<T>[] tree = new Node[4];
 	int nodecnt = 0;
 
 	@Override
@@ -23,80 +22,85 @@ public class Array_Imp<T extends Comparable<T>> implements SuchBaum<T> {
 			tree[1] = root;
 		} else {
 			Node newNode = new Node(data);
-			int index = findIndex(1, newNode);
-			fuegeEin(index, newNode);
+
+			fuegeEin(1, newNode);
 		}
 
-	}
-
-	public int findIndex(int c, Node node) {
-		if (tree[c] != null) // If current c is not empty
-		{
-			if (node.getData().compareTo(tree[c].getData()) > 0) // Go right to
-																	// find an
-																	// empty c
-			{
-				findIndex(c * 2 + 1, node);
-			} else // Go left to find an empty c
-			{
-				findIndex(c * 2, node);
-			}
-		}
-		return c;
 	}
 
 	/**
 	 * Hilfsmethode zum finden des Indexes
 	 */
-	public int fuegeEin(int c, Node node) {
-		if (c >= tree.length) {
+	public int fuegeEin(int index, Node node) {
+		if (index * 2 + 1 >= tree.length) {
 			Node swap[] = new Node[tree.length * 2];
 			System.arraycopy(tree, 0, swap, 0, tree.length);
 			tree = swap;
 		}
-		if (node.getData().compareTo(tree[c].getData()) == -1) {
+		if (node.getData().compareTo(tree[index].getData()) == -1) {
 			// links einfuegen
-			if (tree[c * 2] == null) {
-				tree[c * 2] = node;
-				nodecnt++;
+			if (tree[index * 2] == null) {
+				tree[index * 2] = node;
 			} else
-				fuegeEin(c * 2, node);
-		} else if (node.getData().compareTo(tree[c].getData()) == 1) {
+				fuegeEin(index * 2, node);
+		} else if (node.getData().compareTo(tree[index].getData()) == 1) {
 			// rechts einfuegen
-			if (tree[c * 2 + 1] == null) {
-				tree[c * 2 + 1] = node;
-				nodecnt++;
+			if (tree[index * 2 + 1] == null) {
+				tree[index * 2 + 1] = node;
 			} else
-				fuegeEin(c * 2 + 1, node);
+				fuegeEin(index * 2 + 1, node);
 		} else {
 			System.out.println("neuer Knoten existiert bereits!");
 		}
-		return c;
+		return index;
 	}// fuegeEin
 
 	public void fuegeEin(Node newKnoten) {
 		int index = 1;
 		if (tree[index] == null) {
 			tree[index] = newKnoten;
-			nodecnt++;
 		} else {
 			fuegeEin(index, newKnoten);
 		}
 
 	}
-
-	@Override
-	public List<T> preOrder() {
-		// TODO Auto-generated method stub
-		return null;
+	
+	/**
+	 * Gibt den BSB in preOrder Reihenfolge aus
+	 * 
+	 */
+	public void preOrder(int index) {
+		System.out.println(tree[index].getData().toString);
+		if (tree[index] != null) {
+			if(postOrder(index*2) != null){
+				postOrder(index*2);
+			}
+			if(postOrder(index*2+1) != null){
+			postOrder(index*2+1);
+			}
+		}
 	}
-
-	@Override
-	public List<T> postOrder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
+	/**
+	 * Gibt den BSB in postOrder Reihenfolge aus
+	 *
+	 */
+	public void postOrder(int index) {
+		
+		if (tree[index] != null) {
+			if(postOrder(index*2) != null){
+				postOrder(index*2);
+			}
+			if(postOrder(index*2+1) != null){
+			postOrder(index*2+1);
+					}
+		System.out.println(tree[index].getData().toString);
+		}
+		
+	/**
+	 * Gibt den BSB in inOrder Reihenfolge aus
+	 * 
+	 */
 	public List<T> inOrder() {
 		List<Node> list = Arrays.asList(tree);
 		return (List<T>) list;

@@ -1,7 +1,12 @@
 package binaer_baum;
 
 import java.util.Scanner;
-
+/**
+ * Diese Klasse repräsentiert die Main Methode des Suchbaumes.
+ * Die eingabe wird mittels eines Scanner realisiert.
+ * @author acc378
+ *
+ */
 public class Binaer_Baum {
 
 	public static void main(String[] args) {
@@ -9,13 +14,13 @@ public class Binaer_Baum {
 		/* Creating object of SuchNode */
 		SuchBaumImp<Integer> bst = new SuchBaumImp<Integer>();
 		Array_Imp<Integer> bstArray = new Array_Imp<Integer>();
-		System.out.println("Binary Search Tree Test\n");
+		System.out.println("Binärsuchbaum");
 		int choice;
 		int choice2;
 		/* Perform tree operations */
 	
 		do{
-			System.out.println("Choose Tree Option");
+			System.out.println("Bitte eine Baumstruktur wählen");
 			System.out.println("1. Array ");
 			System.out.println("2. Linked");
 		choice2 = scan.nextInt();
@@ -24,7 +29,7 @@ public class Binaer_Baum {
 		
 		case 1:
 		do {
-			System.out.println("\nBinary Search Tree Operations\n");
+			System.out.println("\nSuchbaum Optionen\n");
 			System.out.println("1. insert ");
 			System.out.println("2. Inorder");
 			System.out.println("3. PreOrder");
@@ -34,20 +39,20 @@ public class Binaer_Baum {
 			choice = scan.nextInt();
 			switch (choice) {
 			case 1:
-				System.out.println("Enter integer element to insert");
+				System.out.println("Element eingeben");
 				bstArray.insert(scan.nextInt());
 				break;
 			case 2:
 				System.out.println("InOrder");
-				System.out.println(bstArray.inOrder());
+				bstArray.inOrder();
 				break;
 			case 3:
 				System.out.println("PreOrder");
-				System.out.println(bstArray.preOrder());
+				bstArray.preOrder();
 				break;
 			case 4:
 				System.out.println("PostOrder");
-				System.out.println(bstArray.postOrder());
+				bstArray.postOrder();
 				break;
 			case 5:
 				System.out.println("exit");
@@ -94,7 +99,7 @@ public class Binaer_Baum {
 				System.out.println("exit");
 				break;
 			default:
-				System.out.println("Wrong Entry \n ");
+				System.out.println("Falscher Eintrag \n ");
 				break;
 			}
 			

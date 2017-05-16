@@ -1,5 +1,10 @@
 package binaer_baum;
-
+/**
+ * Interface des Knotens
+ * @author acc378
+ *
+ * @param <K>
+ */
 public class Node<K extends Comparable<K>> {
 	
 	private K data;

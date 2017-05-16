@@ -1,5 +1,7 @@
 package binaer_baum;
-
+/**
+ * Das Interface des Suchbaumes
+ */
 import java.util.List;
 
 public interface SuchBaum<T> {

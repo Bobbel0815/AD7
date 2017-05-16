@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * BST
+ * Diese Klasse repräsentiert die Binärsuchbaum Implemenetierung mit Hilfe von Referenzen zwischen den Knoten
  * 
  * @author soufian
  */
@@ -14,11 +14,10 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	private int size = 0;
 
 	/**
-	 * Adds a data entry to the BST
+	 * Fügt einen Knoten dem Baum hinzu
 	 * 
-	 * null is positive infinity
 	 * 
-	 * @param data The data entry to add
+	 * @param data Die Daten die hinzugefügt werden
 	 */
 	@Override
 	public void insert(T data) {
@@ -26,7 +25,8 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	}
 
 	/**
-	 * Recursive add() method helper
+	 * Rekursive Hilfsmethode zum durchsuchen des Baumes und zum finden einer gültigen Stelle in diesem
+	 * @param data Daten des Knotens, node der einzufügende Knoten
 	 */
 	private Node<T> add(T data, Node<T> node) {
 		if (node != null) {
@@ -54,9 +54,9 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 
 
 	/**
-	 * Finds the pre-order traversal of the BST
+	 * Gibt den BSB in preorder Reihenfolge zurück
 	 * 
-	 * @return A list of the data set in the BST in pre-order
+	 * @return Eine Liste die den Baum in Preorder Reihenfolge enthält
 	 */
 	@Override
 	public List<T> preOrder() {
@@ -64,6 +64,12 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 		preOrder(root, list);
 		return list;
 	}
+	
+	/**
+	 * Gibt den BSB in preOrder Reihenfolge zurück
+	 * 
+	 * @return Eine Liste die den Baum in postOrder Reihenfolge enthält
+	 */
 
 	private void preOrder(Node<T> node, List<T> list) {
 		if (node != null) {
@@ -74,9 +80,9 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	}
 
 	/**
-	 * Finds the in-order traversal of the BST
+	 * Gibt den BSB in inOrder Reihenfolge zurück
 	 * 
-	 * @return A list of the data set in the BST in in-order
+	 * @return Eine Liste die den Baum in inOrder Reihenfolge enthält
 	 */
 	@Override
 	public List<T> inOrder() {
@@ -94,17 +100,17 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	}
 
 	/**
-	 * Finds the post-order traversal of the BST
+	 * Gibt den BSB in postOrder Reihenfolge zurück
 	 * 
-	 * @return A list of the data set in the BST in post-order
+	 * @return Eine Liste die den Baum in postOrder Reihenfolge enthält
 	 */
-	@Override
-	public List<T> postOrder() {
-		List<T> list = new ArrayList<T>();
-		postOrder(root, list);
-		return list;
-	}
-
+//	@Override
+//	public List<T> postOrder() {
+//		List<T> list = new ArrayList<T>();
+//		postOrder(root, list);
+//		return list;
+//	}
+	
 	private void postOrder(Node<T> node, List<T> list) {
 		if (node != null) {
 			postOrder(node.getLeft(), list);
@@ -114,14 +120,15 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	}
 
 	/**
-	 * Clears this BST
+	 * Löscht den Baum
 	 */
 	public void clear() {
 		root = null;
 	}
 
 	/**
-	 * @return the size of this BST
+	 * Gibt die Größe zurrück
+	 * @return size die Größe des Baumes
 	 */
 	public int size() {
 		return this.size;
