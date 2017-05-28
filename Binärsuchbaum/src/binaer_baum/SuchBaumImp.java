@@ -4,54 +4,76 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Diese Klasse repräsentiert die Binärsuchbaum Implemenetierung mit Hilfe von Referenzen zwischen den Knoten
+ * Diese Klasse repräsentiert die Binärsuchbaum Implemenetierung mit Hilfe von
+ * Referenzen zwischen den Knoten
  * 
  * @author soufian
  */
 public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 
-	private Node<T> root;
+	private Node<T> root = null;
 	private int size = 0;
 
 	/**
 	 * Fügt einen Knoten dem Baum hinzu
 	 * 
 	 * 
-	 * @param data Die Daten die hinzugefügt werden
+	 * @param data
+	 *            Die Daten die hinzugefügt werden
 	 */
 	@Override
 	public void insert(T data) {
-		root = add(data, root);
+		if(root == null){
+		root = new Node(data);
+		}
+		else{
+			add(data,root);
+		}
 	}
 
 	/**
-	 * Rekursive Hilfsmethode zum durchsuchen des Baumes und zum finden einer gültigen Stelle in diesem
-	 * @param data Daten des Knotens, node der einzufügende Knoten
+	 * Rekursive Hilfsmethode zum durchsuchen des Baumes und zum finden einer
+	 * gültigen Stelle in diesem
+	 * 
+	 * @param data
+	 *            Daten des Knotens, node der einzufügende Knoten
 	 */
-	private Node<T> add(T data, Node<T> node) {
-		if (node != null) {
-			if (data == null) {
-				node.setRight(add(data, node.getRight()));
+	private void add(T data, Node<T> node) {
+		// if (node != null) {
+		// if (data == null) {
+		// node.setRight(add(data, node.getRight()));
+		// } else {
+		// if (node.getData() == null) {
+		// node = new Node<T>(data);
+		// node.setRight(add(null, node.getRight()));
+		// }
+		 Node<T> newNode = new Node<T>(data);
+		if (data.compareTo(node.getData()) < 0) {
+			if (node.getLeft() == null) {
+				
+				node.setLeft(newNode);
+				root.setToSum((int) data);
+			}else {
+				 add(data, node.getLeft());
+			}
+		}else if (data.compareTo(node.getData()) > 0) {
+			if (node.getRight() == null) {
+				
+				node.setRight(newNode);
+				
+				root.setToSum((int) data);
 			} else {
-				if (node.getData() == null) {
-					node = new Node<T>(data);
-					node.setRight(add(null, node.getRight()));
-				}
-				if (data.compareTo(node.getData()) < 0) {
-					node.setLeft(add(data, node.getLeft()));
-				}
-				if (data.compareTo(node.getData()) > 0) {
-					node.setRight(add(data, node.getRight()));
-				}
+				add(data, node.getRight());
 			}
 		} else {
-			node = new Node<T>(data);
-			size++;
+			// node = new Node<T>(data);
+			System.out.println("Node already in tree!");
+			// size++;
 		}
 
-		return node;
-	}
+		// return node;
 
+	}
 
 	/**
 	 * Gibt den BSB in preorder Reihenfolge zurück
@@ -64,7 +86,7 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 		preOrder(root, list);
 		return list;
 	}
-	
+
 	/**
 	 * Gibt den BSB in preOrder Reihenfolge zurück
 	 * 
@@ -104,13 +126,13 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	 * 
 	 * @return Eine Liste die den Baum in postOrder Reihenfolge enthält
 	 */
-//	@Override
-//	public List<T> postOrder() {
-//		List<T> list = new ArrayList<T>();
-//		postOrder(root, list);
-//		return list;
-//	}
-	
+	@Override
+	public List<T> postOrder() {
+		List<T> list = new ArrayList<T>();
+		postOrder(root, list);
+		return list;
+	}
+
 	private void postOrder(Node<T> node, List<T> list) {
 		if (node != null) {
 			postOrder(node.getLeft(), list);
@@ -128,6 +150,7 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 
 	/**
 	 * Gibt die Größe zurrück
+	 * 
 	 * @return size die Größe des Baumes
 	 */
 	public int size() {
@@ -146,4 +169,68 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 		this.size = size;
 	}
 
+	public int getSumOfTwoNodes(int min, int max) {
+int rootSum = root.getSum();
+int leftSum = getSumSmallerMin(root, min);
+int rightSum = getSumGreaterMax(root, max);
+		if (min > max) {
+			System.out.println("üngültige Werte");
+			return -1;
+		}
+		return rootSum -leftSum- rightSum;
+	}
+
+	public int getSumSmallerMin(Node<T> node, int min) {
+
+		if (node == null) {
+			return 0;
+		}
+		if ((int) node.getData() == min) {
+			if (node.getLeft() != null) {
+				return node.getLeft().getSum();
+			} else {
+				return 0;
+			}
+		} else if (((int) node.getData() > min)) {
+			return getSumSmallerMin(node.getLeft(), min);
+		} else {
+			int Sum = node.getSum();
+			if (node.getLeft() != null) {
+
+				Sum += (int) node.getLeft().getSum();
+			}
+			return Sum + getSumSmallerMin(node.getRight(), min);
+		}
+
+	}
+
+	public int getSumGreaterMax(Node<T> node, int max) {
+
+		if (node == null) {
+			return 0;
+		}
+		if ((int) node.getData() == max) {
+			if (node.getRight() != null) {
+				return node.getRight().getSum();
+			} else {
+				return 0;
+			}
+		} else if (((int) node.getData() < max)) {
+			return getSumGreaterMax(node.getRight(), max);
+		} else {
+			int Sum = node.getSum();
+			if (node.getRight() != null) {
+				Sum += (int) node.getRight().getSum();
+			}
+			return Sum + getSumGreaterMax(node.getLeft(), max);
+		}
+
+	}
+
 }
+
+// @Override
+// public List<T> postOrder() {
+// // TODO Auto-generated method stub
+// return null;
+// }

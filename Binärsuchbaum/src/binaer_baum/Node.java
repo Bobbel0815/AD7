@@ -9,9 +9,11 @@ public class Node<K extends Comparable<K>> {
 	
 	private K data;
 	private Node<K> left, right;
+	private int Sum;
 	
 	public Node(K data) {
 		setData(data);
+		this.Sum = (int) data;
 	}
 
 	public K getData() {
@@ -39,5 +41,11 @@ public class Node<K extends Comparable<K>> {
 	}
 	public String toString(){
 		return "" + data;
+	}
+	public int getSum(){
+		return Sum;
+	}
+	public void setToSum(int sum){
+		Sum += sum;
 	}
 }

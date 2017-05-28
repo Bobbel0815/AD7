@@ -44,20 +44,20 @@ public class Binaer_Baum {
 				break;
 			case 2:
 				System.out.println("InOrder");
-				bstArray.inOrder();
+				bstArray.inOrder1(1);
 				break;
 			case 3:
 				System.out.println("PreOrder");
-				bstArray.preOrder();
+			bstArray.preOrder1(1);
 				break;
 			case 4:
 				System.out.println("PostOrder");
-				bstArray.postOrder();
+				bstArray.postOrder1(1);
 				break;
 			case 5:
 				System.out.println("exit");
 				break;
-				
+	
 			default:
 				System.out.println("Wrong Entry \n ");
 				break;
@@ -75,6 +75,7 @@ public class Binaer_Baum {
 			System.out.println("2. Inorder");
 			System.out.println("3. PreOrder");
 			System.out.println("4. PostOrder");
+			System.out.println("7. Sum between Nodes");
 			System.out.println("5. exit");
 
 			choice = scan.nextInt();
@@ -94,6 +95,14 @@ public class Binaer_Baum {
 			case 4:
 				System.out.println("PostOrder");
 				System.out.println(bst.postOrder());
+				break;
+			case 7:
+				System.out.println("Sum between Nodes");
+				System.out.println("Enter min value");
+			int	min =scan.nextInt();
+				System.out.println("Enter max value");
+				int max = scan.nextInt();
+				System.out.println("The Sum is: "+bst.getSumOfTwoNodes(min,max));
 				break;
 			case 5:
 				System.out.println("exit");
