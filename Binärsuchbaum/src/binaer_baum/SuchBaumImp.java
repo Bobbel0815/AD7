@@ -23,11 +23,10 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	 */
 	@Override
 	public void insert(T data) {
-		if(root == null){
-		root = new Node(data);
-		}
-		else{
-			add(data,root);
+		if (root == null) {
+			root = new Node(data);
+		} else {
+			add(data, root);
 		}
 	}
 
@@ -39,40 +38,25 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	 *            Daten des Knotens, node der einzufügende Knoten
 	 */
 	private void add(T data, Node<T> node) {
-		// if (node != null) {
-		// if (data == null) {
-		// node.setRight(add(data, node.getRight()));
-		// } else {
-		// if (node.getData() == null) {
-		// node = new Node<T>(data);
-		// node.setRight(add(null, node.getRight()));
-		// }
-		 Node<T> newNode = new Node<T>(data);
-		if (data.compareTo(node.getData()) < 0) {
-			if (node.getLeft() == null) {
-				
-				node.setLeft(newNode);
-				root.setToSum((int) data);
-			}else {
-				 add(data, node.getLeft());
-			}
-		}else if (data.compareTo(node.getData()) > 0) {
-			if (node.getRight() == null) {
-				
-				node.setRight(newNode);
-				
-				root.setToSum((int) data);
+
+		Node<T> newNode = new Node<T>(data);
+		if (data.compareTo(node.getData()) < 0) { 			// data kleiner als aktueller knoten?
+			if (node.getLeft() == null) {        			//knoten hat linken sohn?
+				node.setLeft(newNode);						// setzt knoten mit data als neuen linken sohn
+				root.setToSum((int) data); 					// addiert die summe des knotens mit der wurzel summe
 			} else {
-				add(data, node.getRight());
+				add(data, node.getLeft());					//knoten hat bereits linken sohn. aktueller knoten wird linker sohn
+			}
+		} else if (data.compareTo(node.getData()) > 0) { 	// data größer als aktueller knoten?
+			if (node.getRight() == null) {					//knoten hat rechten sohn? 
+				node.setRight(newNode); 					// setzt knoten mit data als neuen rechten sohn
+				root.setToSum((int) data); 					// addiert die summe des knotens mit der wurzel summe
+			} else {
+				add(data, node.getRight());					//knoten hat bereits linken sohn. aktueller knoten wird rechter sohn
 			}
 		} else {
-			// node = new Node<T>(data);
-			System.out.println("Node already in tree!");
-			// size++;
+			System.out.println("Node already in tree!");	//knoten bereits im baum vorhanden
 		}
-
-		// return node;
-
 	}
 
 	/**
@@ -169,68 +153,84 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 		this.size = size;
 	}
 
+	/**
+	 * Errechnet die Summe der Knoten die vom min bis max im Baum durchlaufen
+	 * werden müssen.
+	 * 
+	 * @param min der startwert
+	 * @param max der endwert
+	 * @return
+	 */
 	public int getSumOfTwoNodes(int min, int max) {
-int rootSum = root.getSum();
-int leftSum = getSumSmallerMin(root, min);
-int rightSum = getSumGreaterMax(root, max);
+		int rootSum = root.getSum();				//wurzelsumme	
+		int leftSum = getSumSmallerMin(root, min);	//summe der knoten die kleiner als min sind
+		int rightSum = getSumGreaterMax(root, max);	//summer der knoten die größer als max sind
 		if (min > max) {
-			System.out.println("üngültige Werte");
+			System.out.println("üngültige Werte");	//min größer als max = fehler
 			return -1;
 		}
-		return rootSum -leftSum- rightSum;
+		return rootSum - leftSum - rightSum; //rechnung zum ermitteln der summe 
 	}
 
+	/**
+	 * hilfsmethode zum finden der summe des linken teilbaums
+	 * 
+	 * @param node aktuller knoten
+	 * @param min übergener min wert
+	 * @return
+	 */
 	public int getSumSmallerMin(Node<T> node, int min) {
 
-		if (node == null) {
+		if (node == null) {									//abbruchbedingung der rekursiven mehthode. aktueller knoten nicht vorhanden
 			return 0;
 		}
-		if ((int) node.getData() == min) {
-			if (node.getLeft() != null) {
-				return node.getLeft().getSum();
+		if ((int) node.getData() == min) {					//knoten ist gleich min = minimum gefunden 											
+			if (node.getLeft() != null) {					//knoten besitz linken sohn
+				return node.getLeft().getSum();				//summe des linken sohnes zurückgeben
 			} else {
-				return 0;
+				return 0;									//knoten hat keinen linken sohn return 0
 			}
-		} else if (((int) node.getData() > min)) {
-			return getSumSmallerMin(node.getLeft(), min);
-		} else {
-			int Sum = node.getSum();
-			if (node.getLeft() != null) {
+		} else if (((int) node.getData() > min)) {			//knoten ist größer als min 
+			return getSumSmallerMin(node.getLeft(), min);	//linken sohn als aktuellen knoten setzen
+		} else {											//knoten ist kleiner als min ->summe des aktullen knotens setzen
+			int Sum = node.getSum();						//
+			if (node.getLeft() != null) {					//wenn linker sohn vorhanden summe des sohnes addieren
 
 				Sum += (int) node.getLeft().getSum();
 			}
-			return Sum + getSumSmallerMin(node.getRight(), min);
+			return Sum + getSumSmallerMin(node.getRight(), min);	//rekursiver aufruf
 		}
 
 	}
 
+	/**
+	 * hilfsmethode zum finden der summe des rechten teilbaums
+	 * 
+	 * @param node aktueller knoten
+	 * @param max übergebner max wert
+	 * @return
+	 */
 	public int getSumGreaterMax(Node<T> node, int max) {
 
-		if (node == null) {
-			return 0;
+		if (node == null) {										//abbruchbedingung der rekursiven mehthode. aktueller knoten nicht vorhanden
+			return 0;												
 		}
-		if ((int) node.getData() == max) {
-			if (node.getRight() != null) {
-				return node.getRight().getSum();
+		if ((int) node.getData() == max) {						//knoten ist gleich max = maximum gefunden 
+			if (node.getRight() != null) {						//knoten besitz rechten sohn
+				return node.getRight().getSum();				//summe des rechten sohnes zurückgeben
 			} else {
-				return 0;
+				return 0;										//knoten hat keinen linken sohn return 0
 			}
-		} else if (((int) node.getData() < max)) {
-			return getSumGreaterMax(node.getRight(), max);
-		} else {
+		} else if (((int) node.getData() < max)) {				//knoten ist kleiner als max
+			return getSumGreaterMax(node.getRight(), max);		//rechten sohn als aktuellen knoten setzen
+		} else {												//knoten ist größer als max ->summe des aktullen knotens setzen
 			int Sum = node.getSum();
-			if (node.getRight() != null) {
+			if (node.getRight() != null) {						//wenn rechter sohn vorhanden summe des sohnes addieren
 				Sum += (int) node.getRight().getSum();
 			}
-			return Sum + getSumGreaterMax(node.getLeft(), max);
-		}
+			return Sum + getSumGreaterMax(node.getLeft(), max);	//rekursiver aufruf
+		}	
 
 	}
 
 }
-
-// @Override
-// public List<T> postOrder() {
-// // TODO Auto-generated method stub
-// return null;
-// }
