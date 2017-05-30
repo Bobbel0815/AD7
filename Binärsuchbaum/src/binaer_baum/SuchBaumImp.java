@@ -13,6 +13,7 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 
 	private Node<T> root = null;
 	private int size = 0;
+	private int counter =0;
 
 	/**
 	 * Fügt einen Knoten dem Baum hinzu
@@ -104,7 +105,38 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 			inOrder(node.getRight(), list);
 		}
 	}
-
+	private void prinInOrder(Node node) {
+	    if(node != null) {
+	        prinInOrder(node.getLeft());   
+	        System.out.print(node.getData()+" ");
+	        prinInOrder(node.getRight());  
+	    }
+	}
+	    public void printInOrder() {
+	        prinInOrder(root);
+	    }
+	    
+	    private void printPostOrder(Node node) {
+		    if(node != null) {
+		        printPostOrder(node.getLeft());   
+		        printPostOrder(node.getRight()); 
+		        System.out.print(node.getData()+" ");
+		    }
+		}
+		    public void printPostoder() {
+		        printPostOrder(root);
+		    }
+		    
+		    private void printPreOrder(Node node) {
+			    if(node != null) {
+			    	System.out.print(node.getData()+" ");
+			        printPreOrder(node.getLeft());
+			        printPreOrder(node.getRight());  
+			    }
+			}
+			    public void printPreOder() {
+			        printPreOrder(root);
+			    }
 	/**
 	 * Gibt den BSB in postOrder Reihenfolge zurück
 	 * 
@@ -162,13 +194,16 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	 * @return
 	 */
 	public int getSumOfTwoNodes(int min, int max) {
+		if (min > max) {
+//			System.out.println("Werte getauscht");	//
+			int swap=min;
+			min = max;
+			max = swap;
+		}
 		int rootSum = root.getSum();				//wurzelsumme	
 		int leftSum = getSumSmallerMin(root, min);	//summe der knoten die kleiner als min sind
 		int rightSum = getSumGreaterMax(root, max);	//summer der knoten die größer als max sind
-		if (min > max) {
-			System.out.println("üngültige Werte");	//min größer als max = fehler
-			return -1;
-		}
+		
 		return rootSum - leftSum - rightSum; //rechnung zum ermitteln der summe 
 	}
 
@@ -180,7 +215,7 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	 * @return
 	 */
 	public int getSumSmallerMin(Node<T> node, int min) {
-
+		counter++;
 		if (node == null) {									//abbruchbedingung der rekursiven mehthode. aktueller knoten nicht vorhanden
 			return 0;
 		}
@@ -211,7 +246,7 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 	 * @return
 	 */
 	public int getSumGreaterMax(Node<T> node, int max) {
-
+		counter++;
 		if (node == null) {										//abbruchbedingung der rekursiven mehthode. aktueller knoten nicht vorhanden
 			return 0;												
 		}
@@ -231,6 +266,12 @@ public class SuchBaumImp<T extends Comparable<T>> implements SuchBaum<T> {
 			return Sum + getSumGreaterMax(node.getLeft(), max);	//rekursiver aufruf
 		}	
 
+	}
+	public int getCounter(){
+		return counter;
+	}
+	public void resetCounter(){
+		counter = 0;
 	}
 
 }
