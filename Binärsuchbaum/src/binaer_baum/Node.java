@@ -9,7 +9,7 @@ public class Node<K extends Comparable<K>> {
 	
 	private K data; //inhalt des knotens
 	private Node<K> left, right; // linke und rechte söhne des knotens
-	private int Sum;  //summe aller daten der kinder des knotens
+	public int Sum;  //summe aller daten der kinder des knotens
 	
 	public Node(K data) {
 		setData(data);
